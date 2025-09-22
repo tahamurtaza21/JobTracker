@@ -23,6 +23,6 @@ public class Job {
     private String jobName;
     private String companyName;
     private LocalDateTime dateSubmitted;
-    private String CV_submitted;
+    private String cvFileName;
 
 }
