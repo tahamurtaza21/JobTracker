@@ -5,6 +5,7 @@ import application.jobtracker.repository.JobRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,19 +32,12 @@ public class JobController {
 
     @GetMapping("/")
     String getHomePage(Model model) {
-        // fetch all jobs once
         List<Job> jobs = jobRepository.findAll();
 
-        // group jobs by ISO week of year
         int jobsByWeek = getJobsByWeek(jobs);
 
         int jobsByMonth = getJobsByMonth(jobs);
 
-        // group jobs by month (example, you can change as needed)
-
-
-        // pass to template
-        model.addAttribute("message", "Hello");
         model.addAttribute("jobs", jobs);
         model.addAttribute("jobsByWeek", jobsByWeek);
         model.addAttribute("jobsByMonth", jobsByMonth);
@@ -96,4 +90,16 @@ public class JobController {
 
         return "redirect:/";
     }
+
+    @PostMapping("/jobs/{id}/status")
+    public String updateJobStatus(@PathVariable Long id, @RequestParam String status) {
+        Job job = jobRepository.findById(id).orElse(null);
+        if (job != null) {
+            job.setStatus(status);
+            jobRepository.save(job);
+        }
+        return "redirect:/";
+    }
+
 }
+

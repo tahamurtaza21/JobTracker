@@ -30,3 +30,36 @@
 });
 }
 });
+
+    // Add this to your existing upload.js file
+    document.addEventListener('DOMContentLoaded', function() {
+        // Your existing code...
+
+        // Style status dropdowns based on their current value
+        const statusDropdowns = document.querySelectorAll('.status-dropdown');
+        statusDropdowns.forEach(dropdown => {
+            updateDropdownStyle(dropdown);
+
+            dropdown.addEventListener('change', function() {
+                updateDropdownStyle(this);
+            });
+        });
+
+        function updateDropdownStyle(dropdown) {
+            const value = dropdown.value;
+
+            if (value === 'success') {
+                dropdown.style.background = '#c6f6d5';
+                dropdown.style.color = '#22543d';
+                dropdown.style.borderColor = '#9ae6b4';
+            } else if (value === 'failure') {
+                dropdown.style.background = '#fed7d7';
+                dropdown.style.color = '#742a2a';
+                dropdown.style.borderColor = '#feb2b2';
+            } else {
+                dropdown.style.background = '#edf2f7';
+                dropdown.style.color = '#4a5568';
+                dropdown.style.borderColor = '#e2e8f0';
+            }
+        }
+    });

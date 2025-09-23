@@ -11,7 +11,6 @@
 <div class="container">
     <div class="header">
         <h1>Job Applications Tracker</h1>
-        <p class="date">Today is <span th:text="${today}">Monday, September 22, 2025</span></p>
     </div>
 
     <div class="section">
@@ -21,7 +20,7 @@
                 <span class="summary-label">Applications</span>
             </div>
             <div class="summary-item">
-                <span class="summary-number"  th:text="${jobsByWeek}">3</span>
+                <span class="summary-number" th:text="${jobsByWeek}">3</span>
                 <span class="summary-label">This Week</span>
             </div>
             <div class="summary-item">
@@ -40,6 +39,7 @@
                     <th>Position</th>
                     <th>Company</th>
                     <th>Applied</th>
+                    <th>Status</th>
                     <th>Resume</th>
                 </tr>
                 </thead>
@@ -48,6 +48,17 @@
                     <td th:text="${job.jobName}">Software Developer</td>
                     <td th:text="${job.companyName}">Tech Corp</td>
                     <td th:text="${#temporals.format(job.dateSubmitted, 'MMM d, HH:mm')}">Sep 22, 14:30</td>
+                    <td>
+                        <form th:action="@{/jobs/{id}/status(id=${job.id})}" method="post" style="margin: 0;">
+                            <select name="status" class="status-dropdown"
+                                    th:value="${job.status != null ? job.status : 'submitted'}"
+                                    onchange="this.form.submit()">
+                                <option value="submitted" th:selected="${job.status == null or job.status == 'submitted'}">Submitted</option>
+                                <option value="success" th:selected="${job.status == 'success'}">Success</option>
+                                <option value="failure" th:selected="${job.status == 'failure'}">Failure</option>
+                            </select>
+                        </form>
+                    </td>
                     <td>
                         <a th:if="${job.cvFileName != null}"
                            th:href="@{'/uploads/' + ${job.cvFileName}}"
