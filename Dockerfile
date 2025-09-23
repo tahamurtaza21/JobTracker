@@ -3,22 +3,16 @@ FROM eclipse-temurin:17-jdk-jammy AS build
 
 WORKDIR /app
 
-# Copy Gradle/Maven files and source
+# Copy Gradle wrapper files first (better layer caching)
+COPY gradlew .
+COPY gradle gradle
+COPY build.gradle settings.gradle ./
+
+# Give execution permission
+RUN chmod +x gradlew
+
+# Now copy the rest
 COPY . .
 
-# Build the app (Gradle example, switch to mvnw if Maven)
+# Build the app
 RUN ./gradlew bootJar
-
-# --- Runtime image ---
-FROM eclipse-temurin:17-jre-jammy
-
-WORKDIR /app
-
-# Copy the JAR from the build stage
-COPY --from=build /app/build/libs/*.jar app.jar
-
-# Expose port for Render
-EXPOSE 8080
-
-# Run the Spring Boot app
-ENTRYPOINT ["java", "-jar", "app.jar"]
