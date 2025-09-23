@@ -11,7 +11,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.WeekFields;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 public class JobController {
@@ -26,10 +31,46 @@ public class JobController {
 
     @GetMapping("/")
     String getHomePage(Model model) {
-        model.addAttribute("message","Hello");
-        model.addAttribute("jobs",jobRepository.findAll());
+        // fetch all jobs once
+        List<Job> jobs = jobRepository.findAll();
+
+        // group jobs by ISO week of year
+        int jobsByWeek = getJobsByWeek(jobs);
+
+        int jobsByMonth = getJobsByMonth(jobs);
+
+        // group jobs by month (example, you can change as needed)
+
+
+        // pass to template
+        model.addAttribute("message", "Hello");
+        model.addAttribute("jobs", jobs);
+        model.addAttribute("jobsByWeek", jobsByWeek);
+        model.addAttribute("jobsByMonth", jobsByMonth);
+
         return "index";
     }
+
+    private static int getJobsByMonth(List<Job> jobs) {
+        int currentMonth = LocalDate.now().getMonthValue();
+        long jobsThisMonth = jobs.stream()
+                .filter(job -> job.getDateSubmitted()
+                        .toLocalDate()
+                        .getMonthValue() == currentMonth)
+                .count();
+        return (int) jobsThisMonth;
+    }
+
+    private static int getJobsByWeek(List<Job> jobs) {
+        int currentWeek = LocalDate.now().get(WeekFields.ISO.weekOfYear());
+        long jobsThisWeek = jobs.stream()
+                .filter(job -> job.getDateSubmitted()
+                        .toLocalDate()
+                        .get(WeekFields.ISO.weekOfYear()) == currentWeek)
+                .count();
+        return (int) jobsThisWeek;
+    }
+
 
     @PostMapping("/jobs")
     public String addJob(@RequestParam("jobName") String jobName,
