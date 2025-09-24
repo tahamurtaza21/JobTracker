@@ -38,15 +38,19 @@
                 <tr>
                     <th>Position</th>
                     <th>Company</th>
+                    <th>Country</th>
                     <th>Applied</th>
                     <th>Status</th>
                     <th>Resume</th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
+                <!--             All the main buttons for seeing the jobs applied to-->
                 <tr th:each="job : ${jobs}">
                     <td th:text="${job.jobName}">Software Developer</td>
                     <td th:text="${job.companyName}">Tech Corp</td>
+                    <td th:text="${job.countryName}">Tech Corp</td>
                     <td th:text="${#temporals.format(job.dateSubmitted, 'MMM d, HH:mm')}">Sep 22, 14:30</td>
                     <td>
                         <form th:action="@{/jobs/{id}/status(id=${job.id})}" method="post" style="margin: 0;">
@@ -64,6 +68,14 @@
                            th:href="@{'/uploads/' + ${job.cvFileName}}"
                            target="_blank"
                            class="cv-link">View</a>
+                    </td>
+                    <td>
+                        <form th:action="@{/jobs/{id}(id=${job.id})}" th:method="delete" style="margin: 0; display: inline;">
+                            <button type="submit" class="delete-button"
+                                    onclick="return confirm('Are you sure you want to delete this application?')">
+                                Delete
+                            </button>
+                        </form>
                     </td>
                 </tr>
                 </tbody>
@@ -87,6 +99,11 @@
                 <div class="field">
                     <label for="companyName">Company</label>
                     <input type="text" id="companyName" name="companyName" required placeholder="e.g. Apple Inc">
+                </div>
+
+                <div class="field">
+                    <label for="countryName">Country</label>
+                    <input type="text" id="countryName" name="companyName" required placeholder="e.g. United Kingdom">
                 </div>
 
                 <div class="field">

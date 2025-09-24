@@ -22,6 +22,7 @@ public class Job {
 
     private String jobName;
     private String companyName;
+    private String countryName;
     private String status;
     private LocalDateTime dateSubmitted;
     private String cvFileName;

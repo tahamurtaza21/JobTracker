@@ -321,3 +321,35 @@ input[type="file"]:focus {
     color: #742a2a;
     border-color: #feb2b2;
 }
+
+ .delete-button {
+     background: #e53e3e;
+     color: white;
+     border: none;
+     padding: 8px 12px;
+     border-radius: 4px;
+     font-size: 0.85rem;
+     font-weight: 500;
+     cursor: pointer;
+     transition: all 0.15s ease;
+ }
+
+.delete-button:hover {
+    background: #c53030;
+    transform: translateY(-1px);
+}
+
+.delete-button:active {
+    transform: translateY(0);
+}
+
+/* Optional: Add some spacing between action buttons if you have multiple */
+.actions-cell {
+    white-space: nowrap;
+}
+
+.actions-cell form {
+    display: inline-block;
+    margin-right: 8px;
+}
+

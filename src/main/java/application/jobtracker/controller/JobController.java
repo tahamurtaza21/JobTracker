@@ -4,10 +4,7 @@ import application.jobtracker.model.Job;
 import application.jobtracker.repository.JobRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -69,6 +66,7 @@ public class JobController {
     @PostMapping("/jobs")
     public String addJob(@RequestParam("jobName") String jobName,
                          @RequestParam("companyName") String companyName,
+                         @RequestParam("companyName") String countryName,
                          @RequestParam("cvFile") MultipartFile file) throws IOException
     {
         File uploadFolder = new File(uploadDir);
@@ -83,6 +81,8 @@ public class JobController {
         Job job = new Job();
         job.setJobName(jobName);
         job.setCompanyName(companyName);
+        job.setStatus("Pending");
+        job.setCountryName(countryName);
         job.setDateSubmitted(LocalDateTime.now());
         job.setCvFileName(companyName + "_" + jobName + ".pdf");
 
@@ -98,6 +98,12 @@ public class JobController {
             job.setStatus(status);
             jobRepository.save(job);
         }
+        return "redirect:/";
+    }
+
+    @DeleteMapping("/jobs/{id}")
+    public String deleteJob(@PathVariable Long id) {
+        jobRepository.findById(id).ifPresent(jobRepository::delete);
         return "redirect:/";
     }
 
