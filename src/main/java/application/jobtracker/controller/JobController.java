@@ -39,6 +39,7 @@ public class JobController {
         model.addAttribute("jobsByWeek", jobsByWeek);
         model.addAttribute("jobsByMonth", jobsByMonth);
 
+
         return "index";
     }
 
@@ -66,7 +67,7 @@ public class JobController {
     @PostMapping("/jobs")
     public String addJob(@RequestParam("jobName") String jobName,
                          @RequestParam("companyName") String companyName,
-                         @RequestParam("companyName") String countryName,
+                         @RequestParam("countryName") String countryName,
                          @RequestParam("cvFile") MultipartFile file) throws IOException
     {
         File uploadFolder = new File(uploadDir);
