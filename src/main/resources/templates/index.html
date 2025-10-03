@@ -50,7 +50,8 @@
                 <tr th:each="job : ${jobs}">
                     <td th:text="${job.jobName}">Software Developer</td>
                     <td th:text="${job.companyName}">Tech Corp</td>
-                    <td th:text="${job.countryName}">Tech Corp</td>
+                    <td th:text="${job.countryName}">United Kingdom</td>
+                    <td th:text="${job.appliedFromWhere}">Linkedin</td>
                     <td th:text="${#temporals.format(job.dateSubmitted, 'MMM d, HH:mm')}">Sep 22, 14:30</td>
                     <td>
                         <form th:action="@{/jobs/{id}/status(id=${job.id})}" method="post" style="margin: 0;">
@@ -99,6 +100,11 @@
                 <div class="field">
                     <label for="companyName">Company</label>
                     <input type="text" id="companyName" name="companyName" required placeholder="e.g. Apple Inc">
+                </div>
+
+                <div class="field">
+                    <label for="appliedFromWhere">Applied From Where</label>
+                    <input type="text" id="appliedFromWhere" name="appliedFromWhere" required placeholder="e.g. Linkedin">
                 </div>
 
                 <div class="field">

@@ -68,6 +68,7 @@ public class JobController {
     public String addJob(@RequestParam("jobName") String jobName,
                          @RequestParam("companyName") String companyName,
                          @RequestParam("countryName") String countryName,
+                         @RequestParam("appliedFromWhere") String appliedFromWhere,
                          @RequestParam("cvFile") MultipartFile file) throws IOException
     {
         File uploadFolder = new File(uploadDir);
@@ -83,6 +84,7 @@ public class JobController {
         job.setJobName(jobName);
         job.setCompanyName(companyName);
         job.setStatus("Pending");
+        job.setAppliedFromWhere(appliedFromWhere);
         job.setCountryName(countryName);
         job.setDateSubmitted(LocalDateTime.now());
         job.setCvFileName(companyName + "_" + jobName + ".pdf");
