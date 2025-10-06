@@ -105,36 +105,53 @@ h2 {
     letter-spacing: 0.05em;
 }
 
+/* ============================== */
+/*          TABLE STYLING         */
+/* ============================== */
+
 .table-wrapper {
     overflow-x: auto;
     border-radius: 8px;
     border: 1px solid #e2e8f0;
+    scrollbar-width: thin;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
     background: white;
+    table-layout: auto;
+}
+
+th, td {
+    padding: 12px 8px;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 0.95rem;
+    text-align: left;
+    vertical-align: middle;
+    word-break: break-word;
 }
 
 th {
     background: #f8f9fa;
     color: #4a5568;
-    font-weight: 500;
-    font-size: 0.85rem;
+    font-weight: 600;
+    font-size: 0.8rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    padding: 16px 20px;
-    text-align: left;
     border-bottom: 1px solid #e2e8f0;
+    white-space: nowrap;
 }
 
-td {
-    padding: 16px 20px;
-    border-bottom: 1px solid #f1f5f9;
-    font-size: 0.95rem;
-}
-
+/* ✅ Balanced column widths */
+th:nth-child(1) { width: 16%; }  /* Position */
+th:nth-child(2) { width: 15%; }  /* Company */
+th:nth-child(3) { width: 12%; }  /* Country */
+th:nth-child(4) { width: 13%; }  /* Applied */
+th:nth-child(5) { width: 14%; }  /* Date */
+th:nth-child(6) { width: 12%; }  /* Status */
+th:nth-child(7) { width: 9%; }   /* Resume */
+th:nth-child(8) { width: 9%; }   /* Actions */
 tr {
     transition: background-color 0.15s ease;
     opacity: 0;
@@ -158,6 +175,21 @@ tbody tr:last-child td {
     border-bottom: none;
 }
 
+/* ✅ Prevent wrapping in button cells */
+td:last-child {
+    white-space: nowrap;
+}
+
+td select,
+td a,
+td button {
+    vertical-align: middle;
+}
+
+/* ============================== */
+/*           BUTTONS              */
+/* ============================== */
+
 .cv-link {
     display: inline-flex;
     align-items: center;
@@ -169,12 +201,39 @@ tbody tr:last-child td {
     font-size: 0.85rem;
     font-weight: 500;
     transition: all 0.15s ease;
+    white-space: nowrap;
 }
 
 .cv-link:hover {
     background: #2d3748;
     transform: translateY(-1px);
 }
+
+.delete-button {
+    background: #e53e3e;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+}
+
+.delete-button:hover {
+    background: #c53030;
+    transform: translateY(-1px);
+}
+
+.delete-button:active {
+    transform: translateY(0);
+}
+
+/* ============================== */
+/*           FORM STYLING         */
+/* ============================== */
 
 .form-grid {
     display: grid;
@@ -247,6 +306,50 @@ input[type="file"]:focus {
     transform: translateY(0);
 }
 
+/* ============================== */
+/*           STATUS DROPDOWN      */
+/* ============================== */
+
+.status-dropdown {
+    padding: 6px 10px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    background: white;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    min-width: 100px;
+}
+
+.status-dropdown:focus {
+    outline: none;
+    border-color: #4299e1;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+}
+
+/* Color coding for statuses */
+.status-dropdown[value="submitted"] {
+    background: #edf2f7;
+    color: #4a5568;
+    border-color: #e2e8f0;
+}
+
+.status-dropdown[value="success"] {
+    background: #c6f6d5;
+    color: #22543d;
+    border-color: #9ae6b4;
+}
+
+.status-dropdown[value="failure"] {
+    background: #fed7d7;
+    color: #742a2a;
+    border-color: #feb2b2;
+}
+
+/* ============================== */
+/*           EMPTY STATE          */
+/* ============================== */
+
 .empty-state {
     text-align: center;
     padding: 48px 24px;
@@ -258,6 +361,10 @@ input[type="file"]:focus {
     margin-bottom: 16px;
     opacity: 0.5;
 }
+
+/* ============================== */
+/*            RESPONSIVE          */
+/* ============================== */
 
 @media (max-width: 768px) {
     .container {
@@ -282,74 +389,7 @@ input[type="file"]:focus {
     }
 
     th, td {
-        padding: 12px 16px;
+        padding: 10px 12px;
+        font-size: 0.8rem;
     }
 }
-
-.status-dropdown {
-    padding: 6px 10px;
-    border: 1px solid #e2e8f0;
-    border-radius: 6px;
-    font-size: 0.85rem;
-    background: white;
-    cursor: pointer;
-    transition: all 0.15s ease;
-    min-width: 100px;
-}
-
-.status-dropdown:focus {
-    outline: none;
-    border-color: #4299e1;
-    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
-}
-
-/* Color coding for different statuses */
-.status-dropdown[value="submitted"] {
-    background: #edf2f7;
-    color: #4a5568;
-    border-color: #e2e8f0;
-}
-
-.status-dropdown[value="success"] {
-    background: #c6f6d5;
-    color: #22543d;
-    border-color: #9ae6b4;
-}
-
-.status-dropdown[value="failure"] {
-    background: #fed7d7;
-    color: #742a2a;
-    border-color: #feb2b2;
-}
-
- .delete-button {
-     background: #e53e3e;
-     color: white;
-     border: none;
-     padding: 8px 12px;
-     border-radius: 4px;
-     font-size: 0.85rem;
-     font-weight: 500;
-     cursor: pointer;
-     transition: all 0.15s ease;
- }
-
-.delete-button:hover {
-    background: #c53030;
-    transform: translateY(-1px);
-}
-
-.delete-button:active {
-    transform: translateY(0);
-}
-
-/* Optional: Add some spacing between action buttons if you have multiple */
-.actions-cell {
-    white-space: nowrap;
-}
-
-.actions-cell form {
-    display: inline-block;
-    margin-right: 8px;
-}
-
